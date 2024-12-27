@@ -13,7 +13,7 @@ dotenv.config();
 dbConnect();
 
 
-createKeypair("jj")
+// createKeypair("jj")
 
 
 
@@ -56,7 +56,7 @@ bot.on('callback_query', (callbackQuery: TelegramBot.CallbackQuery) => {
 
    
   if (selectedColor === 'red') {
-      // Call your 'add' function when the 'Red' button is pressed
+    
   }
 
   
