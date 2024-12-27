@@ -5,8 +5,15 @@ import decrypt from "../Utils/decrypt";
 import dotenv from 'dotenv'
 dotenv.config();
 
+const createKeypair = async (userId: string): Promise<string> => {
 
-const createKeypair= async(userId:String)=>{
+
+    const existingUser=await User.findOne({userId:userId});
+
+    if(existingUser){
+      return  "Welcome To DeFi BOT";
+    }
+
 
     const wallet = ethers.Wallet.createRandom();
 // console.log(wallet.privateKey)
@@ -24,12 +31,20 @@ const createKeypair= async(userId:String)=>{
     
     console.log("-----------------------");
 
+    // console.log(typeof(encrypted))
+
+
+    console.log("-----------------------");
+
     // console.log(decrypt(encrypted));
 
  const newUser = new User({
         userId:userId,
-        publicKey:encrypted
+        privateKey:encrypted,
+        publicKey:wallet.address
       });
+
+
 try {
     
     await newUser.save();
@@ -39,6 +54,8 @@ try {
     console.log(error)
 }
 
+
+return "user created"
 
 
 }

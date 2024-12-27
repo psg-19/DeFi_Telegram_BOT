@@ -15,6 +15,11 @@ const UserSchema = new mongoose_1.default.Schema({
         required: true,
         trim: true
     },
+    publicKey: {
+        type: String,
+        required: true,
+        trim: true
+    },
     createdAt: {
         type: Date,
         default: Date.now(),

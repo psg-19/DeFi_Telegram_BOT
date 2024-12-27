@@ -1,1 +1,1 @@
-{"root":["./index.ts","./types.d.ts","./models/user.ts","./utils/decrypt.ts","./utils/encrypt.ts","./utils/mongodb.ts","./src/createkeypair.ts","./src/getusdc.ts"],"version":"5.7.2"}
+{"root":["./index.ts","./types.d.ts","./models/user.ts","./utils/decrypt.ts","./utils/encrypt.ts","./utils/mongodb.ts","./src/burntoken.ts","./src/createkeypair.ts","./src/gettoken.ts"],"version":"5.7.2"}
