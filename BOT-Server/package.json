@@ -1,0 +1,26 @@
+{
+  "name": "bot-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.4",
+    "mongoose": "^8.9.2",
+    "node-telegram-bot-api": "^0.66.0",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/dotenv": "^6.1.1",
+    "@types/mongoose": "^5.11.96",
+    "@types/node-telegram-bot-api": "^0.64.7"
+  }
+}
