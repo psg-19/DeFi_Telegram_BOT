@@ -13,10 +13,25 @@ import getTokens from './src/getToken';
 import getTokenPrice from './src/getTokenPrice';
 import get_Token_Price_In_Terms_Of_ETH from './src/get_Token_Price_In_Terms_Of_ETH';
 import getUserBalance from './src/getUserBalance';
+import express from 'express'
+import cors from 'cors'
+
 
 dotenv.config();
 
 
+const app=express();
+
+app.use(express.json());
+
+
+app.use(cors({
+  origin: "*",
+//   origin: FRONTEND_URL,
+
+  optionsSuccessStatus: 200,
+  credentials: true 
+}));
 
 dbConnect();
 
@@ -460,6 +475,15 @@ const messageId=msg.message_id;
   //   bot.sendMessage(chatId, "Please choose an option first.");
   // }
 });
+
+app.get('/', (req, res) => {
+  res.send('Hello, TypeScript with Express!');
+});
+
+
+app.listen(3000,()=>{
+  console.log(`server started at port 3000`)
+})
 
 
  

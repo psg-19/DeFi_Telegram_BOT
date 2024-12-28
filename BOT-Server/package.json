@@ -12,16 +12,22 @@
   "dependencies": {
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.4",
+    "express": "^4.21.2",
     "mongoose": "^8.9.2",
-    "node-telegram-bot-api": "^0.66.0",
-    "typescript": "^5.7.2"
+    "node-telegram-bot-api": "^0.66.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
     "@types/mongoose": "^5.11.96",
-    "@types/node-telegram-bot-api": "^0.64.7"
+    "@types/node": "^22.10.2",
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   }
 }
