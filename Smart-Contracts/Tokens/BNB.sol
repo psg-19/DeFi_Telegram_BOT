@@ -18,5 +18,8 @@ function burn(address ad,uint256 amount) public onlyOwner(){
     _burn(ad, amount);
 }
 
+
+
+
     
 }

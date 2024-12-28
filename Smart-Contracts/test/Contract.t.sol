@@ -17,7 +17,8 @@ USDC usdc;
         usdc = new USDC();
     }
  
- function test_GetUSDC() public{
+
+ function test_GetToken() public{
 
 c.AddToken("USDC",address(usdc));
 
@@ -27,14 +28,19 @@ usdc.transferOwnership(address(c));
 console.logString("hello2");
 
 
-c.GetUSDC(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 10);
+
+c.GetToken{value: 1 ether}(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 10,"USDC");
 console.logString("hello3");
 
 assertEq( usdc.balanceOf(0x20753c621FcC8ab20aD53958e807AD78146970Bb),10);
 
 
  }
- function test_BurnUSDC() public{
+
+
+
+
+ function test_BurnToken() public{
 
 c.AddToken("USDC",address(usdc));
 
@@ -44,16 +50,29 @@ usdc.transferOwnership(address(c));
 console.logString("hello2");
 
 deal(address(c), 100 ether);
-c.GetUSDC(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 100000);
+deal(0x20753c621FcC8ab20aD53958e807AD78146970Bb,10 ether);
+
+// vm.prank(0x20753c621FcC8ab20aD53958e807AD78146970Bb);
+console.logUint(address(c).balance);
+
+console.logUint(address(0x20753c621FcC8ab20aD53958e807AD78146970Bb).balance);
+c.GetToken{value: 2 ether}(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 100000,"USDC");
+
+
 
 console.logString("hello3");
-
+console.logUint(address(c).balance);
+console.logUint(address(0x20753c621FcC8ab20aD53958e807AD78146970Bb).balance);
 assertEq( usdc.balanceOf(0x20753c621FcC8ab20aD53958e807AD78146970Bb),100000);
 
+assertEq( c.GetBalances (0x20753c621FcC8ab20aD53958e807AD78146970Bb,"USDC"),100000);
 
-c.BurnUSDC(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 100000, 1);
+c.BurnToken(0x20753c621FcC8ab20aD53958e807AD78146970Bb, 100000, 1 ether,"USDC");
+console.logUint(address(c).balance);
 
-assertEq( usdc.balanceOf(0x20753c621FcC8ab20aD53958e807AD78146970Bb),0);
+console.logUint(address(0x20753c621FcC8ab20aD53958e807AD78146970Bb).balance);
+
+assertEq( c.GetBalances (0x20753c621FcC8ab20aD53958e807AD78146970Bb,"USDC"),0);
 
 
 
