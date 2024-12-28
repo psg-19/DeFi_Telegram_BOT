@@ -1,1 +1,1 @@
-{"root":["./index.ts","./types.d.ts","./models/user.ts","./utils/decrypt.ts","./utils/encrypt.ts","./utils/mongodb.ts","./src/burntoken.ts","./src/createkeypair.ts","./src/gettoken.ts","./src/gettokenprice.ts","./src/get_token_price_in_terms_of_eth.ts"],"version":"5.7.2"}
+{"root":["./index.ts","./types.d.ts","./models/user.ts","./utils/decrypt.ts","./utils/encrypt.ts","./utils/mongodb.ts","./src/burntoken.ts","./src/createkeypair.ts","./src/gettoken.ts","./src/gettokenprice.ts","./src/getuserbalance.ts","./src/get_token_price_in_terms_of_eth.ts"],"version":"5.7.2"}

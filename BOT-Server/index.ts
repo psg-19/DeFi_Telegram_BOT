@@ -12,6 +12,7 @@ import burnTokens from './src/burnToken';
 import getTokens from './src/getToken';
 import getTokenPrice from './src/getTokenPrice';
 import get_Token_Price_In_Terms_Of_ETH from './src/get_Token_Price_In_Terms_Of_ETH';
+import getUserBalance from './src/getUserBalance';
 
 dotenv.config();
 
@@ -32,14 +33,15 @@ const bot:TelegramBot = new TelegramBot(token_bot!, { polling: true });
  
 
 let userBuyState: { [chatId: number]: string } = {};
+// let userSellState: { [chatId: number]: string } = {};
 
 const mainMenu = {
   reply_markup: {
     inline_keyboard: [
       [{ text: 'Buy Crypto', callback_data: 'buy' }],
       [{ text: 'Sell Crypto', callback_data: 'sell' }],
-      [{ text: 'Get Public KEy', callback_data: 'publicKey' }],
       [{ text: 'Get Your Token Balances', callback_data: 'balances' }],
+      [{ text: 'Get Public KEY', callback_data: 'publicKey' }],
       [{ text: 'Eject Your Private Key', callback_data: 'eject' }]
     ]
   }
@@ -142,8 +144,35 @@ bot.sendMessage(chatId!, priceMessage, CryptoMenuBuy);
 
 else if (callbackData=='sell'){
   
-  bot.sendMessage(chatId!, `You selected ${callbackData}. Now, please choose a sub-option:`, CryptoMenuSell);
-  
+ 
+const res=await get_Token_Price_In_Terms_Of_ETH();
+
+console.log(res)
+type SimplifiedData = { [key: string]: number };
+
+// Simplify the data
+const simplifiedData: SimplifiedData = Object.keys(res).reduce((acc, coin) => {
+  acc[coin] = res[coin].eth; // Extract the ETH value
+  return acc;
+}, {} as SimplifiedData);
+
+// await delay(100);
+const priceMessage = `
+Here are the current prices of tokens in terms of Ethereum:
+
+- USDC: ${simplifiedData['usd-coin']} ETH
+- USDT: ${simplifiedData['tether']} ETH
+- PEPE: ${simplifiedData['pepe']} ETH
+- WBTC: ${simplifiedData['wrapped-bitcoin']} ETH
+- SHY: ${simplifiedData['injective-protocol']} ETH
+- BNB: ${simplifiedData['binancecoin']} ETH
+- SHIB: ${simplifiedData['shiba-inu']} ETH
+
+You selected ${callbackData}. Now, please choose a sub-option:
+`;
+ 
+bot.sendMessage(chatId!, priceMessage, CryptoMenuSell);
+
   
   
 }
@@ -184,12 +213,27 @@ else if(callbackData=='eject'){
 
 
 //--------------------------balances  -------------------------------
-     else if(callbackData=='balances'){
-      
-      
+else if(callbackData=='balances'){
 
-      //smart contract interaction
 
+  
+
+  
+ const data=await getUserBalance(chatId.toString()!);
+ let messageString = "Here are the token balances:\n";
+
+
+ Object.entries(data).forEach(([token, balance]) => {
+
+  let bal:string=balance ;
+
+  messageString+=`${token}: ${bal}\n`;
+});
+
+
+
+
+  bot.sendMessage(chatId!, messageString)
 
 
      }
@@ -218,13 +262,24 @@ else if(callbackData=='eject'){
 
     if(['USDC_sell','USDT_sell','SHY_sell','PEPE_sell','BNB_sell','SHIB_sell','WBTC_sell'].includes(callbackData!)){
       
-      const token=callbackData?.split('_')[0];
-      console.log(token)
-      const user=await User.findOne({userId:chatId!.toString()});
+      // const token=callbackData?.split('_')[0];
+      // console.log(token)
+      // const user=await User.findOne({userId:chatId!.toString()});
       
       
       // burnTokens(user?.publicKey!,token!);
-      
+      userBuyState[chatId!] = callbackData!;
+      const  textPrompt = 'You selected '+callbackData?.split("_")[0]+". Please enter the amount of "+callbackData?.split("_")[0] +" you want to spend to get Ethereum"+": ";
+      const  replyMarkup = {
+          reply_markup: {
+            force_reply: true,
+          },
+        };
+  
+        bot.sendMessage(chatId, textPrompt, replyMarkup);
+        const token=callbackData?.split('_')[0];
+        console.log(token)
+        
       
     }
     
@@ -244,26 +299,7 @@ else if(callbackData=='eject'){
       
       
       
-      // bot.sendMessage(chatId!, msg!);
-      // burnTokens(user?.publicKey!,token!);
-      
-      
-    //   try {
-    //     // Make sure to answer the callback query quickly
-    //     await bot.answerCallbackQuery(queryId, { text: 'Processing your request...' });
-
-    //     let msg=  await getTokens(chatId.toString(),token!,"0.01")
-    //     if(!msg){
-    //       msg="something went wrong";
-    //     }
-    //     // Perform your logic (e.g., processing inline button click)
-    //     // You can send a new message or edit the existing message
-    //     await bot.sendMessage(chatId, msg, {
-    //         reply_to_message_id: messageId
-    //     });
-    // } catch (error) {
-    //     console.error('Error handling callback query:', error);
-    // }
+     
 
     }
 
@@ -337,29 +373,62 @@ const messageId=msg.message_id;
 
 
 
+  if (userBuyState[chatId].split('_')[1] === 'sell'){
+    console.log("in selll mf ....");
+
+
+    const regex = /^[0-9]*\.?[0-9]+$/;
+    if (!regex.test(userText!)){
+      bot.sendMessage(chatId, "Invalid Input !!!, Please Select Coin To Sell",CryptoMenuBuy);
+
+  // Clear the user's state after they provide input
+  delete userBuyState[chatId];
+  return;
+
+    }
+
+
+    response = `You entered ${userText} ${userBuyState[chatId].split('_')[0]}  to sell . Proceeding with your request...`;
+    bot.sendMessage(chatId, response);
+    console.log("hiii userstae")
+   
+
+   const user=await User.findOne({userId:chatId});
+
+      // console.log(typeof(userText))
+      try {
+      // Make sure to answer the callback query quickly
+      
+      console.log(userBuyState[chatId].split('_')[0])
+      let msgToSend=  await burnTokens(user?.publicKey!,userBuyState[chatId].split('_')[0],userText!)
+      if(!msgToSend){
+        msgToSend="something went wrong";
+      }
+      // Perform your logic (e.g., processing inline button click)
+      // You can send a new message or edit the existing message
+      await bot.sendMessage(chatId, msgToSend, {
+        reply_to_message_id: messageId
+      });
+    } catch (error) {
+      console.error('Error handling callback query:', error);
+    }
+    
+    
+    // Send a response based on the user's input
+  
+  // Clear the user's state after they provide input
+  delete userBuyState[chatId];
+    
+
+  } 
+
+
+
 }
   // else {
   //   bot.sendMessage(chatId, "Please choose an option first.");
   // }
 });
 
-
-
-
-// bot.on('message', async(msg: TelegramBot.Message) => {
-//   const chatId: number = msg.chat.id;
-//   const messageText: string | undefined = msg.text;
-
-  
-//   if (messageText === '/start') {
-//   // const msg=await createKeypair(chatId.toString());
-//   const result = await createKeypair(chatId.toString());
-
-//     bot.sendMessage(chatId,  result);
-//   } else {
-  
-//     bot.sendMessage(chatId, `You said: ${messageText}`);
-//   }
-// });
 
  
