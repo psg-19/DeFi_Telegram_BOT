@@ -28,9 +28,12 @@ dbConnect();
 // ExitStatus(0)
 const token_bot:string|undefined =process.env.BOT_API_KEY ;
  
+const providerUrl:string = process.env.ALCHEMY_RPC!;
+
+const provider = new ethers.JsonRpcProvider(providerUrl);  
 
 const bot:TelegramBot = new TelegramBot(token_bot!, { polling: true });
- 
+
 
 let userBuyState: { [chatId: number]: string } = {};
 // let userSellState: { [chatId: number]: string } = {};
@@ -107,7 +110,21 @@ bot.on('callback_query', async(callbackQuery) => {
 
 //---------------------------buy ---------------------------------
 if(callbackData=='buy'){
- 
+  const user=await User.findOne({userId:chatId!.toString()});
+      
+      
+ const response= await provider.getBalance(user?.publicKey!) ;
+  
+ const balanceEther = ethers.formatUnits(response, 18);
+          
+  if (parseFloat(balanceEther) === 0) {
+   
+    bot.sendMessage(chatId,`Please visit https://cloud.google.com/application/web3/faucet/ethereum/sepolia and airdrop some Devnet Ehereum ,\nPlease press twice the recievce button on the website.`,{ parse_mode: 'HTML' })
+    const message = `\`${user?.publicKey}\``+"\nhere's your wallet address ";
+bot.sendMessage(chatId!, message, { parse_mode: 'Markdown' });
+
+    return ;
+  } 
 const res=await get_Token_Price_In_Terms_Of_ETH();
 
 console.log(res)
@@ -143,7 +160,21 @@ bot.sendMessage(chatId!, priceMessage, CryptoMenuBuy);
 //---------------------------sell ---------------------------------
 
 else if (callbackData=='sell'){
+  const user=await User.findOne({userId:chatId!.toString()});
+      
+      
+ const response= await provider.getBalance(user?.publicKey!) ;
   
+ const balanceEther = ethers.formatUnits(response, 18);
+          
+  if (parseFloat(balanceEther) === 0) {
+   
+    bot.sendMessage(chatId,`Please visit https://cloud.google.com/application/web3/faucet/ethereum/sepolia and airdrop some Devnet Ehereum ,\nPlease press twice the recievce button on the website.`,{ parse_mode: 'HTML' })
+    const message = `\`${user?.publicKey}\``+"\nhere's your wallet address ";
+bot.sendMessage(chatId!, message, { parse_mode: 'Markdown' });
+
+    return ;
+  } 
  
 const res=await get_Token_Price_In_Terms_Of_ETH();
 
