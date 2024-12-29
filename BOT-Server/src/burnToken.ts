@@ -40,7 +40,7 @@ const  get_Token_Price_In_Terms_Of_ETH = async(token:string) =>{
         },
       });
     
-      const TokenToEth = response?.data['usd-coin']?.eth;
+      const TokenToEth = response?.data[tokenId]?.eth;
 
       return TokenToEth;
 }

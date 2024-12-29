@@ -47,7 +47,7 @@ const user=await User.findOne({userId:chatId});
             contractWithSigner.GetBalances(user?.publicKey, 'BNB'),
             contractWithSigner.GetBalances(user?.publicKey, 'SHIB'),
             contractWithSigner.GetBalances(user?.publicKey, 'WBTC'),
-             await provider.getBalance(user?.publicKey!)
+              provider.getBalance(user?.publicKey!)
     
             // Convert balance from Wei to Ether (1 Ether = 10^18 Wei)
         ]);

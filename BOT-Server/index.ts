@@ -325,6 +325,8 @@ else if(callbackData=='balances'){
         bot.sendMessage(chatId, textPrompt, replyMarkup);
         const token=callbackData?.split('_')[0];
         console.log(token)
+
+        
         
       
     }
