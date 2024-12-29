@@ -357,7 +357,7 @@ else if(callbackData=='balances'){
     }
 
 
-    if(['USDC_sell','USDT_sell','SHY_sell','PEPE_sell','BNB_sell','SHIB_sell','WBTC_sell'].includes(callbackData!)){
+   else if(['USDC_sell','USDT_sell','SHY_sell','PEPE_sell','BNB_sell','SHIB_sell','WBTC_sell'].includes(callbackData!)){
       
       // const token=callbackData?.split('_')[0];
       // console.log(token)
@@ -382,7 +382,7 @@ else if(callbackData=='balances'){
       
     }
     
-    if(['USDC_buy','USDT_buy','SHY_buy','PEPE_buy','BNB_buy','SHIB_buy','WBTC_buy'].includes(callbackData!)){
+   else if(['USDC_buy','USDT_buy','SHY_buy','PEPE_buy','BNB_buy','SHIB_buy','WBTC_buy'].includes(callbackData!)){
       
       userBuyState[chatId!] = callbackData!;
     const  textPrompt = 'You selected '+callbackData?.split("_")[0]+". Please enter the amount of Ethereum you want to spend to buy "+callbackData?.split("_")[0]+": ";
@@ -399,8 +399,12 @@ else if(callbackData=='balances'){
       
       
      
-
+      
     }
+    
+   
+
+
 
    
 console.log(callbackData)
@@ -524,7 +528,40 @@ const messageId=msg.message_id;
 
 
 }
-  // else {
+
+else{
+  const chatId = msg.chat.id;
+ 
+  const result = await createKeypair(chatId.toString());
+  
+  const WelcomeMessage:string=`
+  \nI am a Telegram Bot developed by Pratush shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
+  Here's link to my code base https://github.com/psg-19/DeFi_Telegram_BOT
+  \nI can perform the following operations\n
+1. Buy Crypto
+2. Sell Crypto
+3. Check Balance
+4. Check Price
+5.Eject Your Private Key
+Please Type 'menu' for opening the menu
+
+To continue using our bot you need to airdrop some devnet ethereum from 
+https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+Paste your public key in here to recieve Sepolia devnet Ethereum,
+then you can perfrom buy/sell operations here.
+Even if you have some other token in you account
+you need sepolia Ethereum as gas fee in your account 
+to perfrom transactions.
+Repeat this process once you have exhausted your Sepolia Ethereum.
+
+Disclaimer : - This is bot is not connected to mainnet of Ethereum Please Donot Put Real Money in here !!!!!
+`
+bot.sendMessage(chatId,"Invalid Input !!!!");
+bot.sendMessage(chatId,result);
+bot.sendMessage(chatId,WelcomeMessage)
+  
+}
+// else {
   //   bot.sendMessage(chatId, "Please choose an option first.");
   // }
 });
