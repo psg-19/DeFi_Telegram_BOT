@@ -157,7 +157,11 @@ messageToSend+='Error minting tokens:'+ error;
 
 
   })
-  .catch((error)=>console.log(error));
+  .catch((error)=>{
+    console.log(error.message)
+    messageToSend=error.message.toString()
+    // console.log(error.message?.info.message)
+  });
 
 return messageToSend;
 

@@ -326,7 +326,7 @@ else if(callbackData=='balances'){
         const token=callbackData?.split('_')[0];
         console.log(token)
 
-        
+
         
       
     }
@@ -373,7 +373,7 @@ const messageId=msg.message_id;
 
    
 
-    if (userBuyState[chatId].split('_')[1] === 'buy') {
+    if (userBuyState[chatId]?.split('_')[1] === 'buy') {
 
 
       const regex = /^[0-9]*\.?[0-9]+$/;
@@ -398,7 +398,7 @@ const messageId=msg.message_id;
         try {
         // Make sure to answer the callback query quickly
         
-        console.log(userBuyState[chatId].split('_')[0])
+        console.log(userBuyState[chatId]?.split('_')[0])
         let msgToSend=  await getTokens(chatId.toString(),userBuyState[chatId].split('_')[0]!,userText!)
         if(!msgToSend){
           msgToSend="something went wrong";
@@ -421,7 +421,7 @@ const messageId=msg.message_id;
 
 
 
-  if (userBuyState[chatId].split('_')[1] === 'sell'){
+  if (userBuyState[chatId]?.split('_')[1] === 'sell'){
     console.log("in selll mf ....");
 
 

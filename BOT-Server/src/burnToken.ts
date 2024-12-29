@@ -89,14 +89,15 @@ const contractWithSigner = new ethers.Contract(contractAddress, contractABI, wal
             return "Insuffiecient "+token;
         }
         console.log("Debug starts here ---> ")
-            let res=await get_Token_Price_In_Terms_Of_ETH(token);
-         console.log(res);
-         res=res*(parseFloat(amount));
-         res=res.toFixed(18);
-         console.log(res);
-
-            let ethAmt:bigint=ethers.parseEther(res.toString());
-console.log(ethAmt)
+        let res = await get_Token_Price_In_Terms_Of_ETH(token);
+        console.log(res);
+        
+       
+        let ethAmountString = (parseFloat(res) * parseFloat(amount)).toFixed(18);
+        let ethAmt = ethers.parseEther(ethAmountString);
+        
+        console.log(ethAmt);
+// console.log(ethAmt)
     console.log("burn this much tokens "+ amount+" "+"and send this much eth "+res);
    
 // return;
