@@ -532,7 +532,7 @@ const messageId=msg.message_id;
 
 }
 
-else if(userText!='help'&&userText!='menu'){
+else if(userText!='help'&&userText!='menu'&&userText!='/start'){
   const chatId = msg.chat.id;
  
   const result = await createKeypair(chatId.toString());
