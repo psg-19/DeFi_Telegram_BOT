@@ -11,7 +11,7 @@ const createKeypair = async (userId: string): Promise<string> => {
     const existingUser=await User.findOne({userId:userId});
 
     if(existingUser){
-      return  "Welcome To DeFi BOT";
+      return  "Welcome To DeFi BOT \n"+"Your Public Key is :- \n"+existingUser.publicKey;
     }
 
 
@@ -55,7 +55,7 @@ try {
 }
 
 
-return "user created"
+return "User created\n\n Public Key : - \n\n"+wallet.publicKey;
 
 
 }

@@ -105,8 +105,59 @@ bot.onText(/\/start/,async (msg) => {
   
   
     bot.sendMessage(chatId,  result);
+
+    const WelcomeMessage:string=`I am a Telegram Bot developed and maintained by Pratush shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
+    \nI can perform the following operations\n\n
+1. Buy Crypto\n
+2. Sell Crypto\n
+3. Check Balance\n
+4. Check Price\n
+5.Eject Your Private Key\n
+Please Type 'help' to know the Functionality of BOT \notherwise type 'menu' for opening the menu
+
+
+Disclaimer : - This is bot is not connected to mainnet of Ethereum Please Donot Put Real Money in here !!!!!    `
+    bot.sendMessage(chatId,WelcomeMessage)
+   
+});
+
+bot.onText(/menu/,async (msg) => {
+  const chatId = msg.chat.id;
+ 
+
   
+   
   bot.sendMessage(chatId, 'Please select an option:', mainMenu);
+});
+bot.onText(/help/,async (msg) => {
+  const chatId = msg.chat.id;
+ 
+  const result = await createKeypair(chatId.toString());
+  bot.sendMessage(chatId,result);
+
+  const WelcomeMessage:string=`
+  \nI am a Telegram Bot developed by Pratush shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
+  Here's link to my code base https://github.com/psg-19/DeFi_Telegram_BOT
+  \nI can perform the following operations\n
+1. Buy Crypto
+2. Sell Crypto
+3. Check Balance
+4. Check Price
+5.Eject Your Private Key
+Please Type 'menu' for opening the menu
+
+To continue using our bot you need to airdrop some devnet ethereum from 
+https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+Paste your public key in here to recieve Sepolia devnet Ethereum,
+then you can perfrom buy/sell operations here.
+Even if you have some other token in you account
+you need sepolia Ethereum as gas fee in your account 
+to perfrom transactions.
+Repeat this process once you have exhausted your Sepolia Ethereum.
+
+Disclaimer : - This is bot is not connected to mainnet of Ethereum Please Donot Put Real Money in here !!!!!
+  `
+  bot.sendMessage(chatId,WelcomeMessage)
 });
 
  
@@ -295,7 +346,7 @@ else if(callbackData=='balances'){
         const privateKeYY=decrypt(user?.privateKey!)
         const wallet = new ethers.Wallet(privateKeYY);
         
-        // await User.deleteOne({userId:chatId!.toString()});
+        await User.deleteOne({userId:chatId!.toString()});
 
         bot.sendMessage(chatId!, `Your Private Key is ${wallet.privateKey}.`);
         
