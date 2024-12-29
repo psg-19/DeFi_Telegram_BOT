@@ -135,29 +135,32 @@ bot.onText(/help/,async (msg) => {
   const result = await createKeypair(chatId.toString());
   bot.sendMessage(chatId,result);
 
-  const WelcomeMessage:string=`
-  \nI am a Telegram Bot developed by Pratush shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
-  Here's link to my code base https://github.com/psg-19/DeFi_Telegram_BOT
-  \nI can perform the following operations\n
-1. Buy Crypto
-2. Sell Crypto
-3. Check Balance
-4. Check Price
-5.Eject Your Private Key
-Please Type 'menu' for opening the menu
-
-To continue using our bot you need to airdrop some devnet ethereum from 
-https://cloud.google.com/application/web3/faucet/ethereum/sepolia
-Paste your public key in here to recieve Sepolia devnet Ethereum,
-then you can perfrom buy/sell operations here.
-Even if you have some other token in you account
-you need sepolia Ethereum as gas fee in your account 
-to perfrom transactions.
-Repeat this process once you have exhausted your Sepolia Ethereum.
-
-Disclaimer : - This is bot is not connected to mainnet of Ethereum Please Donot Put Real Money in here !!!!!
-  `
-  bot.sendMessage(chatId,WelcomeMessage)
+  const WelcomeMessage:string= `
+  I am a Telegram Bot developed by Pratush Shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
+  Here's link to my code base <a href="https://github.com/psg-19/DeFi_Telegram_BOT">GitHub</a>
+  I can perform the following operations:
+  1. Buy Crypto
+  2. Sell Crypto
+  3. Check Balance
+  4. Check Price
+  5. Eject Your Private Key
+  
+   <b>Please Type 'menu' for opening the menu </b>
+  
+  To continue using our bot you need to airdrop some devnet ethereum from 
+  <a href="https://cloud.google.com/application/web3/faucet/ethereum/sepolia">Sepolia Faucet</a>
+  Paste your public key in here to receive Sepolia devnet Ethereum,
+  then you can perform buy/sell operations here.
+  Even if you have some other token in your account,
+  you need Sepolia Ethereum as gas fee in your account 
+  to perform transactions.
+  Repeat this process once you have exhausted your Sepolia Ethereum.
+  
+  <b>Disclaimer: This bot is not connected to the mainnet of Ethereum. Please do not put real money in here!</b>
+  `;
+    
+bot.sendMessage(chatId,WelcomeMessage,{ parse_mode: 'HTML' })
+ 
 });
 
  
@@ -529,36 +532,38 @@ const messageId=msg.message_id;
 
 }
 
-else{
+else if(userText!='help'&&userText!='menu'){
   const chatId = msg.chat.id;
  
   const result = await createKeypair(chatId.toString());
   
-  const WelcomeMessage:string=`
-  \nI am a Telegram Bot developed by Pratush shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
-  Here's link to my code base https://github.com/psg-19/DeFi_Telegram_BOT
-  \nI can perform the following operations\n
-1. Buy Crypto
-2. Sell Crypto
-3. Check Balance
-4. Check Price
-5.Eject Your Private Key
-Please Type 'menu' for opening the menu
-
-To continue using our bot you need to airdrop some devnet ethereum from 
-https://cloud.google.com/application/web3/faucet/ethereum/sepolia
-Paste your public key in here to recieve Sepolia devnet Ethereum,
-then you can perfrom buy/sell operations here.
-Even if you have some other token in you account
-you need sepolia Ethereum as gas fee in your account 
-to perfrom transactions.
-Repeat this process once you have exhausted your Sepolia Ethereum.
-
-Disclaimer : - This is bot is not connected to mainnet of Ethereum Please Donot Put Real Money in here !!!!!
-`
+  const WelcomeMessage:string= `
+  I am a Telegram Bot developed by Pratush Shyam Gupt, undergrad at The Indian Institute Of Information Technology Lucknow.
+  Here's link to my code base <a href="https://github.com/psg-19/DeFi_Telegram_BOT">GitHub</a>
+  I can perform the following operations:
+  1. Buy Crypto
+  2. Sell Crypto
+  3. Check Balance
+  4. Check Price
+  5. Eject Your Private Key
+  
+   <b>Please Type 'menu' for opening the menu </b>
+  
+  To continue using our bot you need to airdrop some devnet ethereum from 
+  <a href="https://cloud.google.com/application/web3/faucet/ethereum/sepolia">Sepolia Faucet</a>
+  Paste your public key in here to receive Sepolia devnet Ethereum,
+  then you can perform buy/sell operations here.
+  Even if you have some other token in your account,
+  you need Sepolia Ethereum as gas fee in your account 
+  to perform transactions.
+  Repeat this process once you have exhausted your Sepolia Ethereum.
+  
+  <b>Disclaimer: This bot is not connected to the mainnet of Ethereum. Please do not put real money in here!</b>
+  `;
+   
 bot.sendMessage(chatId,"Invalid Input !!!!");
 bot.sendMessage(chatId,result);
-bot.sendMessage(chatId,WelcomeMessage)
+bot.sendMessage(chatId,WelcomeMessage,{ parse_mode: 'HTML' })
   
 }
 // else {
